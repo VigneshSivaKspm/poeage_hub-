@@ -1,0 +1,11 @@
+packages:
+  - 'admin'
+  - 'user'
+  - 'vendor'
+  - 'driver'
+  - 'packages/*'
+  - 'functions'
+
+allowBuilds:
+  esbuild: true
+  protobufjs: true

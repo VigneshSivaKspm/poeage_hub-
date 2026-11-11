@@ -1,0 +1,36 @@
+{
+  "name": "poeage-hub",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter user dev\" \"pnpm --filter admin dev\" \"pnpm --filter vendor dev\" \"pnpm --filter driver dev\"",
+    "dev:user": "pnpm --filter user dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:vendor": "pnpm --filter vendor dev",
+    "dev:driver": "pnpm --filter driver dev",
+    "build": "pnpm -r build",
+    "build:user": "pnpm --filter user build",
+    "build:admin": "pnpm --filter admin build",
+    "build:vendor": "pnpm --filter vendor build",
+    "build:driver": "pnpm --filter driver build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "tsx --test tests/*.test.ts",
+    "emulators": "firebase emulators:start",
+    "seed": "tsx scripts/seed/index.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "lucide-react": "^1.71.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "protobufjs"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "poeage-hub-dev"
+  },
+  "targets": {
+    "poeage-hub-dev": {
+      "hosting": {
+        "user": ["poeage-hub-user"],
+        "admin": ["poeage-hub-admin"],
+        "vendor": ["poeage-hub-vendor"],
+        "driver": ["poeage-hub-driver"]
+      }
+    }
+  }
+}
