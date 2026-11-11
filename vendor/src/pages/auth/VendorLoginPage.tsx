@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useVendorAuth } from '../../context/AuthContext';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent } from '@poeage/ui';
-import { Store, AlertCircle } from 'lucide-react';
+import { Store, AlertCircle, Zap, KeyRound } from 'lucide-react';
 
 export const VendorLoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('contact@k7fitness.app');
+  const [password, setPassword] = useState('vendor123');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -15,19 +15,29 @@ export const VendorLoginPage: React.FC = () => {
   const location = useLocation();
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (targetEmail: string, targetPass: string) => {
     setErrorMsg(null);
     setLoading(true);
 
     try {
-      await loginVendor(email, password);
+      await loginVendor(targetEmail, targetPass);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setErrorMsg((err as { message?: string }).message || 'Failed to sign in. Please verify credentials.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin(email, password);
+  };
+
+  const handleQuickDemoLogin = () => {
+    setEmail('contact@k7fitness.app');
+    setPassword('vendor123');
+    handleLogin('contact@k7fitness.app', 'vendor123');
   };
 
   return (
@@ -48,7 +58,33 @@ export const VendorLoginPage: React.FC = () => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6 pt-2">
+        <CardContent className="space-y-5 pt-1">
+          {/* Demo Helper Box */}
+          <div className="p-3.5 bg-emerald-950/50 border border-emerald-800/60 rounded-xl space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                <KeyRound className="w-3.5 h-3.5 text-emerald-400" />
+                Temporary Demo Credentials
+              </span>
+              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-semibold">
+                Pre-configured
+              </span>
+            </div>
+            <div className="text-xs text-slate-300 font-mono space-y-0.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+              <p>Email: <span className="text-emerald-400 font-bold">contact@k7fitness.app</span> (or vendor@poeagehub.com)</p>
+              <p>Password: <span className="text-emerald-400 font-bold">vendor123</span> (or any password)</p>
+            </div>
+            <Button
+              type="button"
+              onClick={handleQuickDemoLogin}
+              disabled={loading}
+              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2 shadow-md flex items-center justify-center gap-1.5"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-300" />
+              ⚡ Instant 1-Click Demo Seller Login
+            </Button>
+          </div>
+
           {errorMsg && (
             <div className="p-3 bg-red-950/60 border border-red-800/80 rounded-lg flex items-start gap-2.5 text-xs text-red-300">
               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
@@ -62,7 +98,7 @@ export const VendorLoginPage: React.FC = () => {
               type="email"
               required
               autoComplete="username"
-              placeholder="seller@yourbusiness.com"
+              placeholder="vendor@poeagehub.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-slate-950 border-slate-700 text-white placeholder-slate-500 focus:border-emerald-500"
@@ -88,7 +124,7 @@ export const VendorLoginPage: React.FC = () => {
             </Button>
           </form>
 
-          <p className="text-center text-xs text-slate-400">
+          <p className="text-center text-xs text-slate-400 pt-1">
             Want to sell on POEAGE HUB?{' '}
             <Link to="/register" className="font-semibold text-emerald-400 hover:text-emerald-300">
               Register your business
